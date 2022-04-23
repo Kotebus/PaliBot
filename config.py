@@ -4,6 +4,9 @@ from bs4 import BeautifulSoup
 
 ########################################################
 
+def clean_text(text):
+    return ' '.join(text.replace('\r\n', '').replace('\n\n', '\n').split())
+
 def mainconfig(xmlfile):
     result = []
     with open(xmlfile, "r") as f:
@@ -18,28 +21,17 @@ def mainconfig(xmlfile):
     resp = requests.get(url)
     resp.encoding = "windows-1251"
 
-    name = ""
-    apo = ""
-    text_sutta = ""
+    main_text = ""
+    title = ""
 
-    y = BeautifulSoup(resp.text, "lxml")
-    for a in y.select('table td[height="36"] font[face="Times New Roman, Times, serif"][size="5"]'):
-        name += a.text
+    response = BeautifulSoup(resp.text, "lxml")
 
-    for a in y.select('font[color="#996633"]'):
-        apo = a.text + text_sutta
+    for node in response.select('table [width="70%"] td font font'):
+        title += node.text
 
-    for tag in y.select('font[face="Arial, Helvetica, sans-serif"][size="2"]'):
-        text_sutta = text_sutta + tag.text
+    # title = clean_text(response.select('table [width="70%"] td')[5].text)
 
-    lis_name = name.split()
-    my_name = " ".join(lis_name)
+    for node in response.select('table td[style="text-align: justify"]'):
+        main_text += node.text
 
-    t = apo + text_sutta
-    lis_t = t.split()
-    my_text = " ".join(lis_t)
-    print_text = my_name + "\n\n" + my_text
-    return print_text
-
-
-
+    return title + '\n' + clean_text(main_text) + '\n' + url
