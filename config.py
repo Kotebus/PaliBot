@@ -14,7 +14,7 @@ def mainconfig(xmlfile):
         for tag in soup.find_all("loc"):
             result.append(tag.text)
 
-    sn = random.randint(1, len(result))
+    sn = random.randint(0, len(result) - 1)
     url = result[sn]
 
     resp = requests.get(url)
