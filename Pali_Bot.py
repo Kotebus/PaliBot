@@ -3,7 +3,7 @@ from config import mainconfig
 
 ########################################################
 
-token = '5317155773:AAGm4aujvEWBcm2AVWsCzHM_RYQh-_cYwa8'
+token = '5222327576:AAFc6TqS_9bH75VOifZ2m8HZmKrZCjtk_J0'
 bot = telebot.TeleBot(token)
 
 main_menu = """
@@ -12,6 +12,7 @@ main_menu = """
 
 Для продолжения нажмите:
 >>> /all_sutta - ИЗ ВСЕХ СУТТ
+>>> /dhammapada_sutta - ИЗ ДХАММАПАДЫ
 >>> /theragatha_sutta - ИЗ ТХЕРАГАТХИ"""
 
 @bot.message_handler(commands=['start'])
@@ -27,5 +28,10 @@ def all_suttaa(message):
 def theragatha_suttaa(message):
     print_text = mainconfig("sitemap_theragatha.xml")
     bot.send_message(message.chat.id, print_text + '\n\n>>> СЛЕДУЮЩАЯ СУТТА:  /theragatha_sutta\n>>> МЕНЮ: /start')
+
+@bot.message_handler(commands=['dhammapada_sutta'])
+def dhammapada_suttaa(message):
+    print_text = mainconfig("sitemap_dhammapada.xml")
+    bot.send_message(message.chat.id, print_text + '\n\n>>> СЛЕДУЮЩАЯ СУТТА:  /dhammapada_sutta\n>>> МЕНЮ: /start')
 
 bot.polling(none_stop=True)	
