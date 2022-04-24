@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 
 ########################################################
 def clean_text(text):
-    return ' '.join(text.replace('\r\n', '').replace('\n\n', '\n').split())
+    return ' '.join(text.replace('\n\n', '\n').split())
 
 def mainconfig(xmlfile):
     result = []
@@ -14,7 +14,7 @@ def mainconfig(xmlfile):
         for tag in soup.find_all("loc"):
             result.append(tag.text)
 
-    sn = random.randint(0, len(result) - 1)
+    sn = random.randint(0, len(result)-1)
     url = result[sn]
 
     resp = requests.get(url)
@@ -24,10 +24,10 @@ def mainconfig(xmlfile):
 
     response = BeautifulSoup(resp.text, "lxml")
 
-    title_tag = response.select('table [width="70%"] td font font')[0]
-    title = clean_text(title_tag.text)
+    title_number = clean_text(response.select('table [width="70%"] td font')[2].contents[0])
+    title = clean_text(response.select('table [width="70%"] td font font')[0].text)
 
     for node in response.select('table td[style="text-align: justify"]'):
         main_text += node.text
 
-    return clean_text(title) + '\n' + clean_text(main_text) + '\n' + url
+    return title_number + '\n' + title + '\n' + clean_text(main_text) + '\n' + url
