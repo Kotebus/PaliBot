@@ -3,7 +3,7 @@ from config import mainconfig
 
 ########################################################
 
-token = '5222327576:AAFc6TqS_9bH75VOifZ2m8HZmKrZCjtk_J0'
+token = '5317155773:AAGm4aujvEWBcm2AVWsCzHM_RYQh-_cYwa8'
 bot = telebot.TeleBot(token)
 
 main_menu = """
